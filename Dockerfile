@@ -1,10 +1,8 @@
-FROM debian:latest
-
-RUN apt update && apt upgrade -y
-RUN apt install git curl python3-pip -y
-RUN pip3 install -U pip
-RUN mkdir /app/
-WORKDIR /app/
+FROM python:3.11
+RUN apt-get update -y && apt-get upgrade -y \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 COPY . /app/
-RUN pip3 install -U -r Installer
-CMD python3 Zain
+WORKDIR /app/
+RUN pip3 install --no-cache-dir --upgrade --requirement Installer
+CMD python3 -m zain
